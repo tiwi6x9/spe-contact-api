@@ -7,7 +7,15 @@ const express = require('express');
 
 const cors = require("cors");
 
-const cors = require("cors");
+
+const contactoRoutes = require("./routes/contacto");
+
+const limiter = require("./middleware/rateLimiter");
+
+const app = express();
+
+const PORT = process.env.PORT || 3000;
+
 
 app.use(cors({
 
@@ -26,15 +34,6 @@ app.use(cors({
 }));
 
 
-const contactoRoutes = require("./routes/contacto");
-
-const limiter = require("./middleware/rateLimiter");
-
-const app = express();
-
-const PORT = process.env.PORT || 3000;
-
-
 
 // Middleware
 app.use(cors({
@@ -49,12 +48,15 @@ app.use(cors({
     credentials: false
 
 }));
+
+
 app.use(express.json());
+
 app.use(limiter);
 
-
-
 app.use("/api/contacto", contactoRoutes);
+
+
 
 // Ruta de prueba
 app.get('/', (req, res) => {
