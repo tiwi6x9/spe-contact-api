@@ -1,49 +1,70 @@
 require('dotenv').config();
 
-
-
-
 const express = require('express');
 const cors = require('cors');
 
-const contactoRoutes = require("./routes/contacto");
+const contactoRoutes = require('./routes/contacto');
 
 const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-const cors = require("cors");
+// ==============================
+// CORS
+// ==============================
 
-app.use(cors({
-
+const corsOptions = {
     origin: [
-
-        "http://localhost:5500",
-
-        "https://spe-contact-api-7iaa-1axdm9ehm-sisempresas.vercel.app/api/contacto"
-
+        'http://localhost:5500',
+        'http://127.0.0.1:5500',
+        'https://tiwi6x9.github.io'
     ],
+    methods: ['POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type']
+};
 
-    methods: ["POST"]
+app.use(cors(corsOptions));
 
-}));
+// ==============================
+// JSON
+// ==============================
+
 app.use(express.json());
 
+// ==============================
+// RUTAS
+// ==============================
 
+app.use('/api/contacto', contactoRoutes);
 
-app.use("/api/contacto", contactoRoutes);
+// ==============================
+// RUTA DE PRUEBA
+// ==============================
 
-// Ruta de prueba
 app.get('/', (req, res) => {
+
     res.json({
+        ok: true,
         mensaje: 'API funcionando correctamente'
     });
+
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-    console.log("====================================");
-    console.log("🚀 API SPE iniciada correctamente");
-    console.log(`🌐 http://localhost:${PORT}`);
-    console.log("====================================");
-});
+// ==============================
+// SERVIDOR
+// ==============================
+
+if (process.env.NODE_ENV !== 'production') {
+
+    app.listen(PORT, () => {
+
+        console.log('====================================');
+        console.log('🚀 API SPE iniciada correctamente');
+        console.log(`🌐 http://localhost:${PORT}`);
+        console.log('====================================');
+
+    });
+
+}
+
+module.exports = app;
