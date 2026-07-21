@@ -3,9 +3,11 @@ require("dotenv").config();
 const contactoRoutes = require("./routes/contacto");
 const limiter = require("./middleware/rateLimiter");
 
-
-
+const express = require("express");
 const cors = require("cors");
+
+
+const app = express();
 
 app.use(cors({
 
@@ -17,17 +19,21 @@ app.use(cors({
 
     ],
 
-    methods: ["POST"]
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type"]
 
 }));
 
+app.options("*", cors());
 
-const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
 
-app.use(limiter);
+//app.use(limiter);
+
+
+//const PORT = process.env.PORT || 3000;
 
 app.use("/api/contacto", contactoRoutes);
 
