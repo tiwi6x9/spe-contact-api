@@ -1,126 +1,49 @@
-require("dotenv").config();
+require('dotenv').config();
 
-const express = require("express");
-const cors = require("cors");
+
+
+
+const express = require('express');
+const cors = require('cors');
 
 const contactoRoutes = require("./routes/contacto");
-const limiter = require("./middleware/rateLimiter");
-
 
 const app = express();
 
+const PORT = process.env.PORT || 3000;
 
-// ===============================
-// CONFIGURACIÓN CORS
-// ===============================
+// Middleware
+const cors = require("cors");
 
-const allowedOrigins = [
-    "http://localhost:5500",
-    "https://tiwi6x9.github.io"
-];
+app.use(cors({
 
+    origin: [
 
-const corsOptions = {
-    origin: function (origin, callback) {
+        "http://localhost:5500",
 
-        // Permitir peticiones sin origin
-        // (Postman, servidores internos, etc.)
-        if (!origin) {
-            return callback(null, true);
-        }
+        "https://spe-contact-api-7iaa-1axdm9ehm-sisempresas.vercel.app/api/contacto"
 
-
-        if (allowedOrigins.includes(origin)) {
-            return callback(null, true);
-        }
-
-
-        return callback(
-            new Error("No permitido por CORS")
-        );
-    },
-
-    methods: [
-        "GET",
-        "POST",
-        "OPTIONS"
     ],
 
-    allowedHeaders: [
-        "Content-Type"
-    ],
+    methods: ["POST"]
 
-    credentials: false,
-
-    optionsSuccessStatus: 204
-};
-
-
-// Activar CORS
-app.use(cors(corsOptions));
-
-
-// Responder preflight
-app.options("/api/contacto", cors(corsOptions));
-
-
-
-// ===============================
-// MIDDLEWARES
-// ===============================
-
+}));
 app.use(express.json());
 
 
-// Rate limiter después de CORS
-// cuando confirmes que funciona puedes activarlo
-
-// app.use(limiter);
-
-
-
-// ===============================
-// RUTAS
-// ===============================
 
 app.use("/api/contacto", contactoRoutes);
 
-
-
-// ===============================
-// RUTA DE PRUEBA
-// ===============================
-
-app.get("/", (req, res) => {
-
-    res.status(200).json({
-        mensaje: "API funcionando correctamente",
-        entorno: process.env.NODE_ENV || "development"
+// Ruta de prueba
+app.get('/', (req, res) => {
+    res.json({
+        mensaje: 'API funcionando correctamente'
     });
-
 });
 
-
-
-// ===============================
-// SERVIDOR LOCAL
-// ===============================
-
-const PORT = process.env.PORT || 3000;
-
-
-if (process.env.NODE_ENV !== "production") {
-
-    app.listen(PORT, () => {
-
-        console.log(
-            `Servidor ejecutándose en http://localhost:${PORT}`
-        );
-
-    });
-
-}
-
-
-
-module.exports = app;
+app.listen(PORT, '0.0.0.0', () => {
+    console.log("====================================");
+    console.log("🚀 API SPE iniciada correctamente");
+    console.log(`🌐 http://localhost:${PORT}`);
+    console.log("====================================");
+});
