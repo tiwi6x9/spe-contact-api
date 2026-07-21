@@ -40,7 +40,7 @@ app.options("*", cors());
 
 app.use(express.json());
 
-app.use(limiter);
+//app.use(limiter);
 
 app.use("/api/contacto", contactoRoutes);
 
@@ -66,3 +66,9 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 module.exports = app;
+
+
+
+
+
+
