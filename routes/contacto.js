@@ -2,6 +2,8 @@ const express = require("express");
 
 const router = express.Router();
 
+router.options("/", cors());
+
 const {
 
     enviarFormulario

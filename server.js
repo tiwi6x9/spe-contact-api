@@ -61,7 +61,7 @@ app.use(cors(corsOptions));
 
 
 // Responder preflight
-app.options("*", cors(corsOptions));
+app.options("/api/contacto", cors(corsOptions));
 
 
 
