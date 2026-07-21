@@ -1,28 +1,33 @@
 require("dotenv").config();
 
-const express = require("express");
-const cors = require("cors");
-
 const contactoRoutes = require("./routes/contacto");
 const limiter = require("./middleware/rateLimiter");
 
-const app = express();
 
-app.set("trust proxy", 1);
+
+const cors = require("cors");
+
+app.use(cors({
+
+    origin: [
+
+        "http://localhost:5500",
+
+        "https://spe-contact-api-7iaa-1axdm9ehm-sisempresas.vercel.app/api/contacto"
+
+    ],
+
+    methods: ["POST"]
+
+}));
+
 
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
-
-app.options("*", cors());
-
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
-
 app.use(express.json());
 
-// Descomentar después de verificar que todo funciona
-// app.use(limiter);
+
+app.use(limiter);
 
 app.use("/api/contacto", contactoRoutes);
 
