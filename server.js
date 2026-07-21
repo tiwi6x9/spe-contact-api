@@ -13,7 +13,7 @@ app.use(cors({
 
         "http://localhost:5500",
 
-        "https://spe-contact-api-7iaa-1axdm9ehm-sisempresas.vercel.app/api/contacto"
+        "https://tiwi6x9.github.io"
 
     ],
 
